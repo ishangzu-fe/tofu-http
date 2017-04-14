@@ -2,7 +2,7 @@
   "name": "tofu-http",
   "version": "0.1.0",
   "description": "http request for tofu",
-  "main": "index.js",
+  "main": "src/http.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ishangzu-fe/tofu-http.git"
