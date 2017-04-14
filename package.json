@@ -1,0 +1,22 @@
+{
+  "name": "tofu-http",
+  "version": "0.1.0",
+  "description": "http request for tofu",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishangzu-fe/tofu-http.git"
+  },
+  "keywords": [
+    "tofu",
+    "isz"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ishangzu-fe/tofu-http/issues"
+  },
+  "homepage": "https://github.com/ishangzu-fe/tofu-http#readme",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1"
+  }
+}
