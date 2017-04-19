@@ -41,7 +41,7 @@ class Http {
         });
     }
 
-    restful (url,params,methods) {
+    restful (url,params,method) {
         const config = {
             method:method,
             credentials: 'include',
