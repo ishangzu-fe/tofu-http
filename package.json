@@ -1,8 +1,11 @@
 {
   "name": "tofu-http",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "http request for tofu",
-  "main": "src/http.js",
+  "main": "dist/http.js",
+  "scripts": {
+    "build": "babel src/ -d dist/"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ishangzu-fe/tofu-http.git"

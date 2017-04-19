@@ -30,7 +30,7 @@ class Http {
         if(result){
             result = `?${result}`;
         }
-        return reuslt;
+        return result;
     }
 
     send(url,config){
