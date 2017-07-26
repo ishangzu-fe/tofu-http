@@ -1,4 +1,4 @@
-function Format (format) {
+function Format(format) {
     var o = {
         "M+": this.getMonth() + 1, //月份
         "d+": this.getDate(), //日
@@ -14,37 +14,35 @@ function Format (format) {
     return format;
 }
 
-function toJSON () {
+function toJSON() {
     return this.Format('yyyy-MM-dd hh:mm:ss');
-}
-
-if (typeof Object.assign != 'function') {
-    (function () {
-        Object.assign = function (target) {
-            'use strict';
-            if (target === undefined || target === null) {
-                throw new TypeError('Cannot convert undefined or null to object');
-            }
-
-            var output = Object(target);
-            for (var index = 1; index < arguments.length; index++) {
-                var source = arguments[index];
-                if (source !== undefined && source !== null) {
-                    for (var nextKey in source) {
-                        if (source.hasOwnProperty(nextKey)) {
-                            output[nextKey] = source[nextKey];
-                        }
-                    }
-                }
-            }
-            return output;
-        };
-    })();
 }
 
 export default {
     DateInt: () => {
         Date.prototype.Format = Format;
         Date.prototype.toJSON = toJSON;
+    },
+    merge: (receiver, supplier) => {
+        var key, value;
+
+        for (key in supplier) {
+            if (supplier.hasOwnProperty(key)) {
+                receiver[key] = cloneValue(supplier[key], receiver[key]);
+            }
+        }
+
+        function cloneValue(value, prev) {
+            if (Util.isArray(value)) {
+                value = value.slice();
+            } else if (isPlainObject(value)) {
+                isPlainObject(prev) || (prev = {});
+
+                value = Util.merge(prev, value);
+            }
+
+            return value;
+        }
+        return receiver;
     }
 }

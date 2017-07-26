@@ -9,7 +9,7 @@ class Http {
 
         this.isMock = isMock;
         this.chain = chain;
-        this.headers = Object.assign({}, {
+        this.headers = util.merge({
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }, headers);
