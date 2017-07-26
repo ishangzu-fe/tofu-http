@@ -1,4 +1,4 @@
-const Format = (format) => {
+function Format (format) {
     var o = {
         "M+": this.getMonth() + 1, //月份
         "d+": this.getDate(), //日
@@ -14,7 +14,7 @@ const Format = (format) => {
     return format;
 }
 
-const toJSON = () => {
+function toJSON () {
     return this.Format('yyyy-MM-dd hh:mm:ss');
 }
 
