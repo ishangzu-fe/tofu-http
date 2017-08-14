@@ -25,6 +25,7 @@ export default {
     },
     merge: (receiver, supplier) => {
         var key, value;
+        var self = this;
 
         for (key in supplier) {
             if (supplier.hasOwnProperty(key)) {
@@ -32,13 +33,54 @@ export default {
             }
         }
 
+        function isPlainObject(o) {
+            // Must be an Object.
+            // Because of IE, we also have to check the presence of the constructor
+            // property. Make sure that DOM nodes and window objects don't
+            // pass through, as well
+            if (!o || toString.call(o) !== "[object Object]" ||
+                o.nodeType || Util.isWindow(o)) {
+                return false;
+            }
+
+            try {
+                // Not own constructor property must be Object
+                if (o.constructor &&
+                    !hasOwn.call(o, "constructor") &&
+                    !hasOwn.call(o.constructor.prototype, "isPrototypeOf")) {
+                    return false;
+                }
+            } catch (e) {
+                // IE8,9 Will throw exceptions on certain host objects #9897
+                return false;
+            }
+
+            var key;
+
+            // Support: IE<9
+            // Handle iteration over inherited properties before own properties.
+            // http://bugs.jquery.com/ticket/12199
+            if (iteratesOwnLast) {
+                for (key in o) {
+                    return hasOwn.call(o, key);
+                }
+            }
+
+            // Own properties are enumerated firstly, so to speed up,
+            // if last one is own, then all properties are own.
+            for (key in o) {}
+
+            return key === undefined || hasOwn.call(o, key);
+        }
+
+
         function cloneValue(value, prev) {
-            if (Util.isArray(value)) {
+            if (Object.prototype.toString.call(value)) {
                 value = value.slice();
             } else if (isPlainObject(value)) {
                 isPlainObject(prev) || (prev = {});
 
-                value = Util.merge(prev, value);
+                value = self.merge(prev, value);
             }
 
             return value;

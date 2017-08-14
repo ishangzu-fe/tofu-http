@@ -26,7 +26,6 @@ class Http {
                 }
                 return output;
             }
-
         }
         this.isMock = isMock;
         this.chain = chain;
