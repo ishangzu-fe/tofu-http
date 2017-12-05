@@ -1,7 +1,7 @@
 {
   "name": "tofu-http",
-  "version": "0.1.4",
-  "description": "http request for tofu",
+  "version": "0.1.8",
+  "description": "http client for tofu",
   "main": "dist/http.js",
   "scripts": {
     "build": "babel src/ -d dist/"
@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/ishangzu-fe/tofu-http#readme",
   "dependencies": {
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^2.2.1",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

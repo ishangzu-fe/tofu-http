@@ -23,26 +23,4 @@ export default {
         Date.prototype.Format = Format;
         Date.prototype.toJSON = toJSON;
     },
-    merge: (receiver, supplier) => {
-        var key, value;
-
-        for (key in supplier) {
-            if (supplier.hasOwnProperty(key)) {
-                receiver[key] = cloneValue(supplier[key], receiver[key]);
-            }
-        }
-
-        function cloneValue(value, prev) {
-            if (Util.isArray(value)) {
-                value = value.slice();
-            } else if (isPlainObject(value)) {
-                isPlainObject(prev) || (prev = {});
-
-                value = Util.merge(prev, value);
-            }
-
-            return value;
-        }
-        return receiver;
-    }
 }

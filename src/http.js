@@ -1,43 +1,25 @@
+import 'whatwg-fetch';
 import 'isomorphic-fetch';
-import util from './util';
+import Util from './util';
 
 class Http {
     constructor(isMock = true, chain = data => {
         return data
-    }, headers) {
-        util.DateInt();
-        if (typeof Object['assign'] != 'function') {
-            Object.assign = function (target) {
-                'use strict';
-                if (target === undefined || target === null) {
-                    throw new TypeError('Cannot convert undefined or null to object');
-                }
-
-                var output = Object(target);
-                for (var index = 1; index < arguments.length; index++) {
-                    var source = arguments[index];
-                    if (source !== undefined && source !== null) {
-                        for (var nextKey in source) {
-                            if (source.hasOwnProperty(nextKey)) {
-                                output[nextKey] = source[nextKey];
-                            }
-                        }
-                    }
-                }
-                return output;
-            }
-
-        }
+    }, headers, errorHandler = err => {
+        console.error(err);
+    }) {
+        Util.DateInt();
         this.isMock = isMock;
         this.chain = chain;
-        this.headers = util.merge({
+        this.headers = Object.assign({
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }, headers);
+        this.errorHandler = errorHandler;
 
         ['get', 'post', 'put', 'delete', 'download'].forEach(v => {
-            this[`$${v}`] = (url, params) => {
-                return this.restful.call(this, url, params, v);
+            this[`$${v}`] = (url, params, headers) => {
+                return this.restful.call(this, url, params, v, headers);
             }
         });
     }
@@ -61,21 +43,21 @@ class Http {
         _c.method = _c.method === 'download' ? 'post' : _c.method;
 
         return fetch(url, _c).then(res => {
+            if (res.status >= 400) return res;
+
             if (config.method === 'download') {
                 return res.blob();
             } else {
                 return res.json();
             }
-        }).then(this.chain).catch(err => {
-            return err;
-        });
+        }).then(this.chain).catch(this.errorHandler);
     }
 
-    restful(url, params, method) {
+    restful(url, params, method, headers = {}) {
         const config = {
             method: method,
             credentials: 'include',
-            headers: this.headers
+            headers: Object.assign(this.headers, headers)
         }
 
         if (method == 'get' && params) {
