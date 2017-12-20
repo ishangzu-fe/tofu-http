@@ -38,6 +38,17 @@ class Http {
         return result;
     }
 
+    serialize(params) {
+        let result = '';
+        for (let name of params) {
+            if (params[name]) {
+                result += `${name}=${params[name]}&`
+            }
+        }
+        result = result.slice(0, -1);
+        return result;
+    }
+
     send(url, config) {
         let _c = Object.assign({}, config);
         _c.method = _c.method === 'download' ? 'post' : _c.method;
@@ -57,11 +68,17 @@ class Http {
         const config = {
             method: method,
             credentials: 'include',
-            headers: Object.assign(this.headers, headers)
+            headers: Object.assign({}, this.headers, headers)
         }
 
         if (method == 'get' && params) {
             url = url + this.getParam(params);
+        } else if (method === 'post' && config.headers['Content-Type'] === 'application/x-www-form-urlencoded' && params) {
+            if (typeof params === 'string') {
+                config['body'] = params;
+            } else if (params.toString() === '[object Object]') {
+                config['body'] = this.serialize(params);
+            }
         } else {
             config['body'] = JSON.stringify(params);
         }
