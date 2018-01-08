@@ -57,7 +57,11 @@ class Http {
             if (res.status >= 400) return res;
 
             if (config.method === 'download') {
-                return res.blob();
+                if(res.headers.get('content-type') != 'multipart/form-data;charset=UTF-8'){
+                    return res.json();
+                }else{
+                    return res.blob();
+                }
             } else {
                 return res.json();
             }
