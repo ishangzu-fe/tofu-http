@@ -40,7 +40,7 @@ class Http {
 
     serialize(params) {
         let result = '';
-        for (let name of params) {
+        for (let name in params) {
             if (params[name]) {
                 result += `${name}=${params[name]}&`
             }
@@ -73,7 +73,7 @@ class Http {
 
         if (method == 'get' && params) {
             url = url + this.getParam(params);
-        } else if (method === 'post' && config.headers['Content-Type'] === 'application/x-www-form-urlencoded' && params) {
+        } else if (config.headers['Content-Type'] === 'application/x-www-form-urlencoded' && params) {
             if (typeof params === 'string') {
                 config['body'] = params;
             } else if (params.toString() === '[object Object]') {
