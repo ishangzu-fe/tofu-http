@@ -84,7 +84,14 @@ class Http {
                 config['body'] = this.serialize(params);
             }
         } else {
-            config['body'] = JSON.stringify(params,(key,val) => { return val === undefined ? null :val; });
+            var replacer = function(key, val){
+                return val === undefined ? null : val;
+            }
+
+            if(method == 'get'){
+                replacer = null
+            }
+            config['body'] = JSON.stringify(params,replacer);
         }
 
         return this.send(url, config);
