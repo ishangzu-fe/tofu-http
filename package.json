@@ -1,6 +1,6 @@
 {
   "name": "tofu-http",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "http client for tofu",
   "main": "dist/http.js",
   "scripts": {
