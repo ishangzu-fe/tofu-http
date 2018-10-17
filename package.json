@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ishangzu-fe/tofu-http#readme",
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "isomorphic-fetch": "^2.2.1",
     "whatwg-fetch": "^2.0.3"
   },

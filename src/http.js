@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import 'isomorphic-fetch';
 import Util from './util';
-
+import MD5 from './md5';
 class Http {
     constructor(isMock = true, chain = data => {
         return data
@@ -69,10 +69,13 @@ class Http {
     }
 
     restful(url, params, method, headers = {}) {
+        let hearersCaptain = {
+            ironman:MD5(url, params, method),
+        };
         const config = {
             method: method,
             credentials: 'include',
-            headers: Object.assign({}, this.headers, headers)
+            headers: Object.assign({}, this.headers, headers, hearersCaptain)
         }
 
         if (method == 'get' && params) {
