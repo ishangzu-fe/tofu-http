@@ -1,8 +1,9 @@
 
 import CryptoJS from 'crypto-js';
-module.exports = function (url, params, method) {
+module.exports = function (url, param, method) {
     const urls = url.replace(/(.action)$/, '');
-    if (params) {
+    if (param) {
+        var params = Object.assign({}, param);
         Object.keys(params).map(v => {
             if (params[v] == undefined) {
                 params[v] = '';
