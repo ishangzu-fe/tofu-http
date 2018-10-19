@@ -5,7 +5,7 @@ module.exports = function (url, param, method) {
     if (param) {
         var params = Object.assign({}, param);
         Object.keys(params).map(v => {
-            if (params[v] == undefined) {
+            if (params[v] === undefined) {
                 params[v] = '';
             }
         }) 
