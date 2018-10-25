@@ -10,7 +10,7 @@ module.exports = function (url, param, method) {
             }
         }) 
     }
-    const paramsUrl = (params ? JSON.stringify(params) : method == 'get' ? '' : 'null') + urls;
+    const paramsUrl = (method === 'get' ? '' : params ? JSON.stringify(params) : 'null') + urls;
     let captainSerect = document.cookie.replace(/(?:(?:^|.*;\s*)captain\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)ISZ_SESSIONID\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     if (captainSerect) {
