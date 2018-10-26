@@ -6,9 +6,9 @@ module.exports = function (url, param, method) {
         var params = Object.assign({}, param);
         Object.keys(params).map(v => {
             if (params[v] === undefined) {
-                params[v] = '';
+                params[v] = null;
             }
-        }) 
+        })
     }
     const paramsUrl = (method === 'get' ? '' : params ? JSON.stringify(params) : 'null') + urls;
     let captainSerect = document.cookie.replace(/(?:(?:^|.*;\s*)captain\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -19,7 +19,7 @@ module.exports = function (url, param, method) {
     } else {
         captainSerect = localStorage.getItem('captainSerect');
     }
-    const hash = CryptoJS.HmacSHA256(paramsUrl, captainSerect);     
+    const hash = CryptoJS.HmacSHA256(paramsUrl, captainSerect);
     const hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
     const md5Last = CryptoJS.MD5(hashInBase64 + token).toString().toUpperCase('')
     return md5Last
