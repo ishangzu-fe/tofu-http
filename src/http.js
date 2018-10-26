@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import 'isomorphic-fetch';
 import Util from './util';
-import MD5 from './md5';
+// import MD5 from './md5';
 class Http {
     constructor(isMock = true, chain = data => {
         return data
@@ -57,9 +57,9 @@ class Http {
             if (res.status >= 400) return res;
 
             if (config.method === 'download') {
-                if(res.headers.get('content-type') != 'multipart/form-data;charset=UTF-8'){
+                if (res.headers.get('content-type') != 'multipart/form-data;charset=UTF-8') {
                     return res.json();
-                }else{
+                } else {
                     return res.blob();
                 }
             } else {
@@ -69,13 +69,14 @@ class Http {
     }
 
     restful(url, params, method, headers = {}) {
-        let hearersCaptain = {
-            ironman:MD5(url, params, method),
-        };
+        // let hearersCaptain = {
+        //     ironman:MD5(url, params, method),
+        // };
         const config = {
             method: method,
             credentials: 'include',
-            headers: Object.assign({}, this.headers, headers, hearersCaptain)
+            // headers: Object.assign({}, this.headers, headers, hearersCaptain)
+            headers: Object.assign({}, this.headers, headers)
         }
 
         if (method == 'get' && params) {
@@ -87,14 +88,14 @@ class Http {
                 config['body'] = this.serialize(params);
             }
         } else {
-            var replacer = function(key, val){
+            var replacer = function (key, val) {
                 return val === undefined ? null : val;
             }
 
-            if(method == 'get'){
+            if (method == 'get') {
                 replacer = null
             }
-            config['body'] = JSON.stringify(params,replacer);
+            config['body'] = JSON.stringify(params, replacer);
         }
 
         return this.send(url, config);
