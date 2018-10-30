@@ -3,7 +3,7 @@ import 'isomorphic-fetch';
 import Util from './util';
 import MD5 from './md5';
 class Http {
-    constructor(isMock = true, chain = data => {
+    constructor(isMock = true, caption, chain = data => {
         return data
     }, headers, errorHandler = err => {
         console.error(err);
@@ -19,7 +19,7 @@ class Http {
 
         ['get', 'post', 'put', 'delete', 'download'].forEach(v => {
             this[`$${v}`] = (url, params, headers) => {
-                return this.restful.call(this, url, params, v, headers);
+                return this.restful.call(this, url, params, v, headers, caption);
             }
         });
     }
@@ -68,10 +68,13 @@ class Http {
         }).then(this.chain).catch(this.errorHandler);
     }
 
-    restful(url, params, method, headers = {}) {
-        let hearersCaptain = {
-            ironman: MD5(url, params, method),
-        };
+    restful(url, params, method, headers = {}, caption) {
+        let hearersCaptain = {};
+        if (caption) {
+            hearersCaptain = {
+                ironman: MD5(url, params, method),
+            };
+        }
         const config = {
             method: method,
             credentials: 'include',
