@@ -70,7 +70,7 @@ class Http {
 
     restful(url, params, method, headers = {}, caption) {
         let hearersCaptain = {};
-        if (caption) {
+        if (caption && typeof caption === "boolean") {
             hearersCaptain = {
                 ironman: MD5(url, params, method),
             };
