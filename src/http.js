@@ -1,9 +1,9 @@
 import 'whatwg-fetch';
 import 'isomorphic-fetch';
 import Util from './util';
-import MD5 from './md5';
+
 class Http {
-    constructor(isMock = true, caption, chain = data => {
+    constructor(isMock = true, chain = data => {
         return data
     }, headers, errorHandler = err => {
         console.error(err);
@@ -19,7 +19,7 @@ class Http {
 
         ['get', 'post', 'put', 'delete', 'download'].forEach(v => {
             this[`$${v}`] = (url, params, headers) => {
-                return this.restful.call(this, url, params, v, headers, caption);
+                return this.restful.call(this, url, params, v, headers);
             }
         });
     }
@@ -68,17 +68,11 @@ class Http {
         }).then(this.chain).catch(this.errorHandler);
     }
 
-    restful(url, params, method, headers = {}, caption) {
-        let hearersCaptain = {};
-        if (caption && typeof caption === "boolean") {
-            hearersCaptain = {
-                ironman: MD5(url, params, method),
-            };
-        }
+    restful(url, params, method, headers = {}) {
         const config = {
             method: method,
             credentials: 'include',
-            headers: Object.assign({}, this.headers, headers, hearersCaptain)
+            headers: Object.assign({}, this.headers, headers)
         }
 
         if (method == 'get' && params) {
